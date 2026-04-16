@@ -1,14 +1,6 @@
 import { useState } from 'react';
 import { Minus, Plus, Save, Trash2, Pencil, Check, X } from 'lucide-react';
 import { usePresets, Preset } from '@/hooks/usePresets';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from '@/components/ui/dialog';
 
 interface PoolRowProps {
   label: string;
