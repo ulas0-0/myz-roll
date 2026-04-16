@@ -14,8 +14,7 @@ const ActionButtons = ({ onRoll, onPush, canPush, isRolling, totalDice }: Action
       whileTap={{ scale: 0.96 }}
       onClick={onRoll}
       disabled={isRolling || totalDice === 0}
-      className="flex-1 py-4 px-6 bg-toxic/90 text-primary-foreground font-display text-lg md:text-xl font-bold uppercase tracking-widest rounded-sm border-2 border-toxic-glow/50 disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:bg-toxic-glow/90 active:bg-toxic"
-      style={{ boxShadow: '0 0 20px hsl(90 100% 35% / 0.2), inset 0 1px 0 hsl(90 100% 60% / 0.2)' }}
+      className="flex-1 py-4 px-6 btn-heavy btn-roll text-lg md:text-xl tracking-widest rounded-sm"
     >
       {isRolling ? '...' : `⚡ Lancer les dés (${totalDice})`}
     </motion.button>
@@ -24,8 +23,7 @@ const ActionButtons = ({ onRoll, onPush, canPush, isRolling, totalDice }: Action
       whileTap={canPush ? { scale: 0.96 } : {}}
       onClick={onPush}
       disabled={!canPush || isRolling}
-      className="sm:w-auto py-4 px-6 bg-danger/80 text-destructive-foreground font-display text-base md:text-lg font-bold uppercase tracking-widest rounded-sm border-2 border-danger/50 disabled:opacity-20 disabled:cursor-not-allowed transition-all hover:bg-danger active:bg-danger/70"
-      style={canPush ? { boxShadow: '0 0 15px hsl(0 70% 45% / 0.3)' } : {}}
+      className="sm:w-auto py-4 px-6 btn-heavy btn-push text-base md:text-lg tracking-widest rounded-sm"
     >
       ☠ Pousser le jet
     </motion.button>

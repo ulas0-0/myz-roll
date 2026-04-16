@@ -8,7 +8,6 @@ const dieCategoryLabel = {
   gear: 'Équipement',
 };
 
-/** Returns the appropriate symbol component for a die face */
 const getDieSymbol = (die: DieResult) => {
   const isSuccess = die.value === 6;
   const isTrauma = die.value === 1 && die.category === 'base';
@@ -38,9 +37,7 @@ const DieFace = ({ die, index }: { die: DieResult; index: number }) => {
       className={`die-face ${categoryClass} ${isSuccess ? 'die-success' : ''} ${isDamage ? 'die-damage' : ''}`}
       title={`${die.category} — ${die.value}`}
     >
-      {/* Scratched texture overlay */}
       <div className="die-texture" />
-      {/* Symbol */}
       <div className="die-symbol-container">
         {getDieSymbol(die)}
       </div>
@@ -72,9 +69,9 @@ interface DiceResultsProps {
 const DiceResults = ({ roll, isRolling }: DiceResultsProps) => {
   if (!roll && !isRolling) {
     return (
-      <div className="panel">
+      <div className="panel noise-bg">
         <div className="panel-header">▸ Résultats</div>
-        <div className="px-4 py-8 text-center text-muted-foreground text-sm">
+        <div className="px-4 py-8 text-center text-muted-foreground text-sm relative z-10">
           Configurez vos dés et lancez...
         </div>
       </div>
@@ -82,14 +79,14 @@ const DiceResults = ({ roll, isRolling }: DiceResultsProps) => {
   }
 
   return (
-    <div className="panel">
+    <div className="panel noise-bg">
       <div className="panel-header flex items-center justify-between">
         <span>▸ Résultats</span>
         {roll?.pushed && (
           <span className="text-danger text-[0.65rem] tracking-wider">JET POUSSÉ</span>
         )}
       </div>
-      <div className="px-4 py-3 space-y-3">
+      <div className="px-4 py-3 space-y-3 relative z-10">
         {isRolling ? (
           <div className="py-6 text-center toxic-glow text-lg font-display">
             LANCER EN COURS...
