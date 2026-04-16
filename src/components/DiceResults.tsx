@@ -1,10 +1,23 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { DieResult, RollResult } from '@/types/dice';
+import { SuccessSymbol, TraumaSymbol, GearDamageSymbol, NeutralSymbol } from './DiceSymbols';
 
 const dieCategoryLabel = {
   base: 'Attribut',
   skill: 'Compétence',
   gear: 'Équipement',
+};
+
+/** Returns the appropriate symbol component for a die face */
+const getDieSymbol = (die: DieResult) => {
+  const isSuccess = die.value === 6;
+  const isTrauma = die.value === 1 && die.category === 'base';
+  const isGearDamage = die.value === 1 && die.category === 'gear';
+
+  if (isSuccess) return <SuccessSymbol size={26} className="die-symbol-success" />;
+  if (isTrauma) return <TraumaSymbol size={26} className="die-symbol-trauma" />;
+  if (isGearDamage) return <GearDamageSymbol size={26} className="die-symbol-gear-damage" />;
+  return <NeutralSymbol size={26} className="die-symbol-neutral" />;
 };
 
 const DieFace = ({ die, index }: { die: DieResult; index: number }) => {
@@ -23,8 +36,14 @@ const DieFace = ({ die, index }: { die: DieResult; index: number }) => {
       animate={{ scale: 1, rotate: 0 }}
       transition={{ delay: index * 0.05, type: 'spring', stiffness: 300, damping: 20 }}
       className={`die-face ${categoryClass} ${isSuccess ? 'die-success' : ''} ${isDamage ? 'die-damage' : ''}`}
+      title={`${die.category} — ${die.value}`}
     >
-      {die.value}
+      {/* Scratched texture overlay */}
+      <div className="die-texture" />
+      {/* Symbol */}
+      <div className="die-symbol-container">
+        {getDieSymbol(die)}
+      </div>
     </motion.div>
   );
 };
