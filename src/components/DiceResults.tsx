@@ -1,0 +1,108 @@
+import { motion, AnimatePresence } from 'framer-motion';
+import { DieResult, RollResult } from '@/types/dice';
+
+const dieCategoryLabel = {
+  base: 'Attribut',
+  skill: 'Compétence',
+  gear: 'Équipement',
+};
+
+const DieFace = ({ die, index }: { die: DieResult; index: number }) => {
+  const isSuccess = die.value === 6;
+  const isDamage = die.pushed && die.value === 1 && die.category !== 'skill';
+  const isTrauma = die.value === 1 && die.category === 'base';
+  const isGearDamage = die.value === 1 && die.category === 'gear';
+
+  const categoryClass = {
+    base: 'die-base',
+    skill: 'die-skill',
+    gear: 'die-gear',
+  }[die.category];
+
+  // Determine number color based on special states
+  let numberClass = 'die-number';
+  if (isSuccess) numberClass += ' die-number-success';
+  else if (isDamage) numberClass += ' die-number-damage';
+  else if (isTrauma) numberClass += ' die-number-trauma';
+  else if (isGearDamage) numberClass += ' die-number-gear-damage';
+
+  return (
+    <motion.div
+      initial={{ scale: 0, rotate: -180 }}
+      animate={{ scale: 1, rotate: 0 }}
+      transition={{ delay: index * 0.05, type: 'spring', stiffness: 300, damping: 20 }}
+      className={`die-face ${categoryClass} ${isSuccess ? 'die-success' : ''} ${isDamage ? 'die-damage' : ''}`}
+      title={`${die.category} — ${die.value}`}
+    >
+      <div className="die-texture" />
+      <span className={numberClass}>{die.value}</span>
+    </motion.div>
+  );
+};
+
+const DiceGroup = ({ dice, category }: { dice: DieResult[]; category: string }) => {
+  if (dice.length === 0) return null;
+  return (
+    <div>
+      <div className="text-[0.65rem] text-muted-foreground uppercase tracking-widest mb-1.5">
+        {dieCategoryLabel[category as keyof typeof dieCategoryLabel]}
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {dice.map((die, i) => (
+          <DieFace key={`${category}-${i}`} die={die} index={i} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+interface DiceResultsProps {
+  roll: RollResult | null;
+  isRolling: boolean;
+}
+
+const DiceResults = ({ roll, isRolling }: DiceResultsProps) => {
+  if (!roll && !isRolling) {
+    return (
+      <div className="panel noise-bg">
+        <div className="panel-header">▸ Résultats</div>
+        <div className="px-4 py-8 text-center text-muted-foreground text-sm relative z-10">
+          Configurez vos dés et lancez...
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="panel noise-bg">
+      <div className="panel-header flex items-center justify-between">
+        <span>▸ Résultats</span>
+        {roll?.pushed && (
+          <span className="text-danger text-[0.65rem] tracking-wider">JET POUSSÉ</span>
+        )}
+      </div>
+      <div className="px-4 py-3 space-y-3 relative z-10">
+        {isRolling ? (
+          <div className="py-6 text-center toxic-glow text-lg font-display">
+            LANCER EN COURS...
+          </div>
+        ) : roll && (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={roll.timestamp}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="space-y-3"
+            >
+              <DiceGroup dice={roll.dice.filter(d => d.category === 'base')} category="base" />
+              <DiceGroup dice={roll.dice.filter(d => d.category === 'skill')} category="skill" />
+              <DiceGroup dice={roll.dice.filter(d => d.category === 'gear')} category="gear" />
+            </motion.div>
+          </AnimatePresence>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default DiceResults;

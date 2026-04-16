@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 5% 8%;
+    --foreground: 45 20% 75%;
+
+    --card: 30 5% 11%;
+    --card-foreground: 45 20% 75%;
+
+    --popover: 30 5% 11%;
+    --popover-foreground: 45 20% 75%;
+
+    --primary: 90 100% 35%;
+    --primary-foreground: 30 5% 5%;
+
+    --secondary: 30 30% 18%;
+    --secondary-foreground: 45 20% 75%;
+
+    --muted: 30 8% 15%;
+    --muted-foreground: 30 10% 45%;
+
+    --accent: 40 80% 45%;
+    --accent-foreground: 30 5% 5%;
+
+    --destructive: 15 80% 40%;
+    --destructive-foreground: 45 20% 90%;
+
+    --border: 30 10% 20%;
+    --input: 30 10% 20%;
+    --ring: 90 100% 35%;
+
+    --radius: 0.25rem;
+
+    /* Custom tokens */
+    --rust: 15 60% 30%;
+    --toxic: 90 100% 35%;
+    --toxic-glow: 90 100% 50%;
+    --concrete: 30 5% 25%;
+    --dirty-yellow: 45 70% 50%;
+    --charcoal: 30 5% 8%;
+    --danger: 0 70% 45%;
+
+    --font-display: 'Rajdhani', sans-serif;
+    --font-mono: 'Share Tech Mono', monospace;
+
+    --shadow-inset: inset 0 1px 3px rgba(0,0,0,0.5);
+    --shadow-panel: 0 2px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+    --shadow-heavy: 0 4px 16px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.04);
+
+    --sidebar-background: 30 5% 10%;
+    --sidebar-foreground: 45 20% 75%;
+    --sidebar-primary: 90 100% 35%;
+    --sidebar-primary-foreground: 30 5% 5%;
+    --sidebar-accent: 30 8% 15%;
+    --sidebar-accent-foreground: 45 20% 75%;
+    --sidebar-border: 30 10% 20%;
+    --sidebar-ring: 90 100% 35%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-mono);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* ========== TEXTURE OVERLAYS ========== */
+
+.noise-bg {
+  position: relative;
+}
+.noise-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Scanline CRT effect */
+.scanline::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 50%, rgba(0,0,0,0.03) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ========== PANEL SYSTEM ========== */
+
+.panel {
+  @apply bg-card border border-border rounded-sm;
+  box-shadow: var(--shadow-panel);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Riveted / bolted corners */
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.panel-header {
+  @apply px-3 py-2 border-b border-border;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  background: linear-gradient(180deg, hsl(var(--muted) / 0.5), transparent);
+  position: relative;
+  z-index: 1;
+}
+
+/* ========== DICE FACE STYLES ========== */
+
+.die-face {
+  @apply flex items-center justify-center rounded-sm relative overflow-hidden;
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid;
+  box-shadow: var(--shadow-inset);
+}
+
+.die-texture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+/* Die number */
+.die-number {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: currentColor;
+  opacity: 0.6;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.08), 0 -1px 0 rgba(0,0,0,0.4);
+}
+.die-number-success {
+  opacity: 1;
+  filter: drop-shadow(0 0 4px currentColor);
+}
+.die-number-trauma {
+  opacity: 0.75;
+}
+.die-number-gear-damage {
+  opacity: 0.75;
+}
+.die-number-damage {
+  opacity: 1;
+  color: hsl(var(--danger));
+  filter: drop-shadow(0 0 5px hsl(var(--danger) / 0.8));
+}
+
+/* === BASE / ATTRIBUTE DIE === */
+.die-base {
+  background: linear-gradient(145deg, hsl(45 50% 14%), hsl(40 40% 10%));
+  border-color: hsl(var(--dirty-yellow) / 0.5);
+  color: hsl(var(--dirty-yellow));
+  box-shadow: var(--shadow-inset), 0 1px 0 hsl(var(--dirty-yellow) / 0.15);
+}
+
+/* === SKILL DIE === */
+.die-skill {
+  background: linear-gradient(145deg, hsl(100 30% 12%), hsl(90 25% 8%));
+  border-color: hsl(var(--toxic) / 0.4);
+  color: hsl(var(--toxic));
+  box-shadow: var(--shadow-inset), 0 1px 0 hsl(var(--toxic) / 0.1);
+}
+
+/* === GEAR DIE === */
+.die-gear {
+  background: linear-gradient(145deg, hsl(20 15% 14%), hsl(15 10% 8%));
+  border-color: hsl(var(--rust) / 0.6);
+  color: hsl(var(--rust) / 0.9);
+  box-shadow: var(--shadow-inset), 0 1px 0 hsl(var(--rust) / 0.15);
+}
+
+/* === Success highlight === */
+.die-success {
+  box-shadow: 0 0 10px hsl(var(--toxic) / 0.5), var(--shadow-inset);
+  border-color: hsl(var(--toxic) / 0.7);
+}
+.die-success .die-number {
+  color: hsl(var(--toxic-glow));
+  filter: drop-shadow(0 0 6px hsl(var(--toxic-glow)));
+  opacity: 1;
+}
+
+/* === Damage highlight === */
+.die-damage {
+  box-shadow: 0 0 10px hsl(var(--danger) / 0.6), var(--shadow-inset);
+  border-color: hsl(var(--danger) / 0.7);
+  animation: damage-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes damage-pulse {
+  0%, 100% { box-shadow: 0 0 8px hsl(var(--danger) / 0.4), var(--shadow-inset); }
+  50% { box-shadow: 0 0 16px hsl(var(--danger) / 0.7), var(--shadow-inset); }
+}
+
+/* ========== GLOW & ANIMATIONS ========== */
+
+@keyframes glow-pulse {
+  0%, 100% { text-shadow: 0 0 4px hsl(var(--toxic) / 0.4); }
+  50% { text-shadow: 0 0 12px hsl(var(--toxic) / 0.8); }
+}
+
+.toxic-glow {
+  color: hsl(var(--toxic));
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* ========== HEAVY BUTTON ========== */
+
+.btn-heavy {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 2px solid;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-heavy), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.btn-heavy:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-inset);
+}
+.btn-heavy:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-roll {
+  background: linear-gradient(180deg, hsl(var(--toxic)), hsl(90 80% 28%));
+  border-color: hsl(var(--toxic-glow) / 0.5);
+  color: hsl(var(--primary-foreground));
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.btn-roll:hover:not(:disabled) {
+  box-shadow: 0 0 24px hsl(var(--toxic) / 0.3), var(--shadow-heavy);
+}
+
+.btn-push {
+  background: linear-gradient(180deg, hsl(var(--danger)), hsl(0 60% 30%));
+  border-color: hsl(var(--danger) / 0.6);
+  color: hsl(var(--destructive-foreground));
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.btn-push:hover:not(:disabled) {
+  box-shadow: 0 0 20px hsl(var(--danger) / 0.3), var(--shadow-heavy);
+}
+
+/* ========== POOL CONTROLS ========== */
+
+.pool-btn {
+  @apply flex items-center justify-center bg-secondary border border-border rounded-sm;
+  box-shadow: var(--shadow-inset);
+  transition: all 0.1s ease;
+}
+.pool-btn:active {
+  transform: scale(0.95);
+  background: hsl(var(--muted));
+}
+
+/* ========== INSTALL PROMPT ========== */
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out;
+}
