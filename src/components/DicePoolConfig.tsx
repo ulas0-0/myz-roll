@@ -257,33 +257,33 @@ const DicePoolConfig = ({ pools, onSetPool }: DicePoolConfigProps) => {
         )}
       </div>
 
-      {/* Delete confirmation dialog */}
-      <Dialog open={!!deleteTarget} onOpenChange={open => !open && setDeleteTarget(null)}>
-        <DialogContent className="panel noise-bg border-destructive/40 max-w-xs">
-          <DialogHeader>
-            <DialogTitle className="font-display text-destructive uppercase tracking-wider text-base">
+      {/* Delete confirmation inline */}
+      {deleteTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70" onClick={() => setDeleteTarget(null)}>
+          <div className="panel noise-bg border-destructive/40 max-w-xs w-[90vw] p-4 space-y-3" onClick={e => e.stopPropagation()}>
+            <div className="font-display text-destructive uppercase tracking-wider text-base font-bold">
               Supprimer le preset
-            </DialogTitle>
-            <DialogDescription className="text-xs text-muted-foreground">
-              Supprimer <span className="font-bold text-foreground">« {deleteTarget?.label} »</span> ? Cette action est irréversible.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="flex gap-2 sm:gap-2">
-            <button
-              onClick={() => setDeleteTarget(null)}
-              className="flex-1 h-9 text-xs font-display font-bold uppercase tracking-wider rounded-sm border border-border bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Annuler
-            </button>
-            <button
-              onClick={handleConfirmDelete}
-              className="flex-1 h-9 text-xs font-display font-bold uppercase tracking-wider rounded-sm border border-destructive/40 bg-destructive/20 text-destructive hover:bg-destructive/30 transition-colors"
-            >
-              Supprimer
-            </button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            </div>
+            <div className="text-xs text-muted-foreground">
+              Supprimer <span className="font-bold text-foreground">« {deleteTarget.label} »</span> ? Cette action est irréversible.
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setDeleteTarget(null)}
+                className="flex-1 h-9 text-xs font-display font-bold uppercase tracking-wider rounded-sm border border-border bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={handleConfirmDelete}
+                className="flex-1 h-9 text-xs font-display font-bold uppercase tracking-wider rounded-sm border border-destructive/40 bg-destructive/20 text-destructive hover:bg-destructive/30 transition-colors"
+              >
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
