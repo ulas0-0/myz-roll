@@ -14,14 +14,14 @@ const ResultSummary = ({ roll }: ResultSummaryProps) => {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="panel"
+      className="panel noise-bg"
     >
       <div className="panel-header">▸ Bilan</div>
-      <div className="px-4 py-3 space-y-2">
+      <div className="px-4 py-3 space-y-2 relative z-10">
         {/* Successes */}
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground uppercase tracking-wider">Succès</span>
-          <span className={`font-display text-3xl font-bold ${roll.successes > 0 ? 'toxic-glow' : 'text-muted-foreground'}`}>
+          <span className={`font-display text-4xl font-bold ${roll.successes > 0 ? 'toxic-glow' : 'text-muted-foreground'}`}>
             {roll.successes}
           </span>
         </div>

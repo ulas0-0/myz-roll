@@ -9,7 +9,7 @@ interface PoolRowProps {
 }
 
 const PoolRow = ({ label, sublabel, value, onChange, colorClass }: PoolRowProps) => (
-  <div className="flex items-center justify-between gap-3 py-2">
+  <div className="flex items-center justify-between gap-3 py-2.5 relative z-10">
     <div className="flex-1 min-w-0">
       <div className={`font-display text-sm md:text-base font-bold uppercase tracking-wider ${colorClass}`}>
         {label}
@@ -19,7 +19,7 @@ const PoolRow = ({ label, sublabel, value, onChange, colorClass }: PoolRowProps)
     <div className="flex items-center gap-2">
       <button
         onClick={() => onChange(value - 1)}
-        className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center bg-secondary border border-border rounded-sm active:bg-muted transition-colors"
+        className="pool-btn w-10 h-10 md:w-11 md:h-11"
         aria-label="Diminuer"
       >
         <Minus className="w-4 h-4" />
@@ -29,7 +29,7 @@ const PoolRow = ({ label, sublabel, value, onChange, colorClass }: PoolRowProps)
       </span>
       <button
         onClick={() => onChange(value + 1)}
-        className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center bg-secondary border border-border rounded-sm active:bg-muted transition-colors"
+        className="pool-btn w-10 h-10 md:w-11 md:h-11"
         aria-label="Augmenter"
       >
         <Plus className="w-4 h-4" />
@@ -44,9 +44,9 @@ interface DicePoolConfigProps {
 }
 
 const DicePoolConfig = ({ pools, onSetPool }: DicePoolConfigProps) => (
-  <div className="panel">
+  <div className="panel noise-bg">
     <div className="panel-header">▸ Configuration des dés</div>
-    <div className="px-3 py-1 divide-y divide-border">
+    <div className="px-3 py-1 divide-y divide-border relative z-10">
       <PoolRow
         label="Attribut"
         sublabel="Force, Agilité, Intelligence, Empathie"

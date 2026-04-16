@@ -9,9 +9,12 @@ const AppHeader = () => (
           // Système de lancer de dés — v1.0
         </p>
       </div>
-      <div className="hidden sm:block text-right">
+      <div className="hidden sm:flex flex-col items-end gap-0.5">
         <div className="text-[0.6rem] text-muted-foreground font-mono">
           SYS.STATUS: <span className="toxic-glow text-[0.65rem]">OPÉRATIONNEL</span>
+        </div>
+        <div className="text-[0.5rem] text-muted-foreground/50 font-mono">
+          ▸ MODE HORS-LIGNE DISPONIBLE
         </div>
       </div>
     </div>

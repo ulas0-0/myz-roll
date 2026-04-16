@@ -13,9 +13,9 @@ const RollHistory = ({ history }: RollHistoryProps) => {
   if (history.length === 0) return null;
 
   return (
-    <div className="panel">
+    <div className="panel noise-bg">
       <div className="panel-header">▸ Historique ({history.length})</div>
-      <div className="max-h-48 overflow-y-auto">
+      <div className="max-h-48 overflow-y-auto relative z-10">
         {history.map((roll, i) => (
           <div
             key={roll.timestamp + '-' + i}
