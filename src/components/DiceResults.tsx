@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { DieResult, RollResult } from '@/types/dice';
-import { SuccessSymbol, TraumaSymbol, GearDamageSymbol, NeutralSymbol } from './DiceSymbols';
 
 const dieCategoryLabel = {
   base: 'Attribut',
@@ -8,26 +7,24 @@ const dieCategoryLabel = {
   gear: 'Équipement',
 };
 
-const getDieSymbol = (die: DieResult) => {
-  const isSuccess = die.value === 6;
-  const isTrauma = die.value === 1 && die.category === 'base';
-  const isGearDamage = die.value === 1 && die.category === 'gear';
-
-  if (isSuccess) return <SuccessSymbol size={26} className="die-symbol-success" />;
-  if (isTrauma) return <TraumaSymbol size={26} className="die-symbol-trauma" />;
-  if (isGearDamage) return <GearDamageSymbol size={26} className="die-symbol-gear-damage" />;
-  return <NeutralSymbol size={26} className="die-symbol-neutral" />;
-};
-
 const DieFace = ({ die, index }: { die: DieResult; index: number }) => {
   const isSuccess = die.value === 6;
   const isDamage = die.pushed && die.value === 1 && die.category !== 'skill';
+  const isTrauma = die.value === 1 && die.category === 'base';
+  const isGearDamage = die.value === 1 && die.category === 'gear';
 
   const categoryClass = {
     base: 'die-base',
     skill: 'die-skill',
     gear: 'die-gear',
   }[die.category];
+
+  // Determine number color based on special states
+  let numberClass = 'die-number';
+  if (isSuccess) numberClass += ' die-number-success';
+  else if (isDamage) numberClass += ' die-number-damage';
+  else if (isTrauma) numberClass += ' die-number-trauma';
+  else if (isGearDamage) numberClass += ' die-number-gear-damage';
 
   return (
     <motion.div
@@ -38,9 +35,7 @@ const DieFace = ({ die, index }: { die: DieResult; index: number }) => {
       title={`${die.category} — ${die.value}`}
     >
       <div className="die-texture" />
-      <div className="die-symbol-container">
-        {getDieSymbol(die)}
-      </div>
+      <span className={numberClass}>{die.value}</span>
     </motion.div>
   );
 };
