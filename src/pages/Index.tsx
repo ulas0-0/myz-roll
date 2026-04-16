@@ -5,6 +5,7 @@ import DiceResults from '@/components/DiceResults';
 import ResultSummary from '@/components/ResultSummary';
 import RollHistory from '@/components/RollHistory';
 import { useDiceRoller } from '@/hooks/useDiceRoller';
+import bgWasteland from '@/assets/bg-wasteland.jpg';
 
 const Index = () => {
   const { pools, setPool, currentRoll, history, isRolling, roll, push } = useDiceRoller();
@@ -12,8 +13,15 @@ const Index = () => {
   const canPush = !!currentRoll && !currentRoll.pushed && !isRolling;
 
   return (
-    <div className="min-h-screen bg-background noise-bg">
-      <div className="relative z-10 max-w-2xl mx-auto">
+    <div className="min-h-screen relative">
+      {/* Background */}
+      <div
+        className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${bgWasteland})` }}
+      />
+      <div className="fixed inset-0 z-0 bg-background/85" />
+
+      <div className="relative z-10 max-w-2xl mx-auto noise-bg">
         <AppHeader />
         <main className="p-3 md:p-4 space-y-3 md:space-y-4">
           <DicePoolConfig pools={pools} onSetPool={setPool} />

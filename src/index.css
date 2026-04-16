@@ -163,13 +163,32 @@
   mix-blend-mode: overlay;
 }
 
-.die-symbol-container {
+/* Die number */
+.die-number {
   position: relative;
   z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  filter: drop-shadow(0 1px 0 rgba(255,255,255,0.08)) drop-shadow(0 -1px 0 rgba(0,0,0,0.4));
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: currentColor;
+  opacity: 0.6;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.08), 0 -1px 0 rgba(0,0,0,0.4);
+}
+.die-number-success {
+  opacity: 1;
+  filter: drop-shadow(0 0 4px currentColor);
+}
+.die-number-trauma {
+  opacity: 0.75;
+}
+.die-number-gear-damage {
+  opacity: 0.75;
+}
+.die-number-damage {
+  opacity: 1;
+  color: hsl(var(--danger));
+  filter: drop-shadow(0 0 5px hsl(var(--danger) / 0.8));
 }
 
 /* === BASE / ATTRIBUTE DIE === */
@@ -195,22 +214,16 @@
   color: hsl(var(--rust) / 0.9);
   box-shadow: var(--shadow-inset), 0 1px 0 hsl(var(--rust) / 0.15);
 }
-.die-gear .die-symbol-neutral { color: hsl(30 8% 35%); }
-
-/* === Symbol modifiers === */
-.die-symbol-success { filter: drop-shadow(0 0 3px currentColor); }
-.die-symbol-trauma { opacity: 0.7; }
-.die-symbol-gear-damage { opacity: 0.7; }
-.die-symbol-neutral { opacity: 0.4; }
 
 /* === Success highlight === */
 .die-success {
   box-shadow: 0 0 10px hsl(var(--toxic) / 0.5), var(--shadow-inset);
   border-color: hsl(var(--toxic) / 0.7);
 }
-.die-success .die-symbol-success {
+.die-success .die-number {
   color: hsl(var(--toxic-glow));
   filter: drop-shadow(0 0 6px hsl(var(--toxic-glow)));
+  opacity: 1;
 }
 
 /* === Damage highlight === */
@@ -218,12 +231,6 @@
   box-shadow: 0 0 10px hsl(var(--danger) / 0.6), var(--shadow-inset);
   border-color: hsl(var(--danger) / 0.7);
   animation: damage-pulse 1.5s ease-in-out infinite;
-}
-.die-damage .die-symbol-trauma,
-.die-damage .die-symbol-gear-damage {
-  opacity: 1;
-  color: hsl(var(--danger));
-  filter: drop-shadow(0 0 5px hsl(var(--danger) / 0.8));
 }
 
 @keyframes damage-pulse {
