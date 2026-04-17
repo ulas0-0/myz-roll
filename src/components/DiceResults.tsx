@@ -9,9 +9,7 @@ const dieCategoryLabel = {
 
 const DieFace = ({ die, index }: { die: DieResult; index: number }) => {
   const isSuccess = die.value === 6;
-  const isDamage = die.pushed && die.value === 1 && die.category !== 'skill';
-  const isTrauma = die.value === 1 && die.category === 'base';
-  const isGearDamage = die.value === 1 && die.category === 'gear';
+  const isOne = die.value === 1 && die.category !== 'skill';
 
   const categoryClass = {
     base: 'die-base',
@@ -19,23 +17,20 @@ const DieFace = ({ die, index }: { die: DieResult; index: number }) => {
     gear: 'die-gear',
   }[die.category];
 
-  // Determine number color based on special states
-  let numberClass = 'die-number';
-  if (isSuccess) numberClass += ' die-number-success';
-  else if (isDamage) numberClass += ' die-number-damage';
-  else if (isTrauma) numberClass += ' die-number-trauma';
-  else if (isGearDamage) numberClass += ' die-number-gear-damage';
-
   return (
     <motion.div
       initial={{ scale: 0, rotate: -180 }}
       animate={{ scale: 1, rotate: 0 }}
       transition={{ delay: index * 0.05, type: 'spring', stiffness: 300, damping: 20 }}
-      className={`die-face ${categoryClass} ${isSuccess ? 'die-success' : ''} ${isDamage ? 'die-damage' : ''}`}
+      className={`die-face ${categoryClass} ${isSuccess ? 'die-success' : ''} ${isOne ? 'die-damage' : ''}`}
       title={`${die.category} — ${die.value}`}
     >
       <div className="die-texture" />
-      <span className={numberClass}>{die.value}</span>
+      <div className="die-symbol-wrap">
+        <span className={`die-number ${isSuccess ? 'die-number-success' : ''} ${isOne ? 'die-number-damage' : ''}`}>
+          {die.value}
+        </span>
+      </div>
     </motion.div>
   );
 };

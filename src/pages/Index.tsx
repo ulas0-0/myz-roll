@@ -17,7 +17,7 @@ const Index = () => {
       {/* Background */}
       <div
         className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${bgWasteland})` }}
+        style={{ backgroundImage: `url(https://cdn.pixabay.com/photo/2024/07/14/16/51/ai-generated-8894878_1280.jpg)` }}
       />
       <div className="fixed inset-0 z-0 bg-background/85" />
 

@@ -6,73 +6,68 @@
 
 @layer base {
   :root {
-    --background: 30 5% 8%;
-    --foreground: 45 20% 75%;
+    --background: 30 8% 6%;
+    --foreground: 45 15% 65%;
 
-    --card: 30 5% 11%;
-    --card-foreground: 45 20% 75%;
+    --card: 28 6% 9%;
+    --card-foreground: 45 15% 65%;
 
-    --popover: 30 5% 11%;
-    --popover-foreground: 45 20% 75%;
+    --popover: 28 6% 9%;
+    --popover-foreground: 45 15% 65%;
 
-    --primary: 90 100% 35%;
+    --primary: 88 70% 28%;
     --primary-foreground: 30 5% 5%;
 
-    --secondary: 30 30% 18%;
-    --secondary-foreground: 45 20% 75%;
+    --secondary: 30 20% 13%;
+    --secondary-foreground: 45 15% 65%;
 
-    --muted: 30 8% 15%;
-    --muted-foreground: 30 10% 45%;
+    --muted: 30 8% 12%;
+    --muted-foreground: 30 8% 38%;
 
-    --accent: 40 80% 45%;
+    --accent: 40 60% 38%;
     --accent-foreground: 30 5% 5%;
 
-    --destructive: 15 80% 40%;
-    --destructive-foreground: 45 20% 90%;
+    --destructive: 12 65% 35%;
+    --destructive-foreground: 45 20% 85%;
 
-    --border: 30 10% 20%;
-    --input: 30 10% 20%;
-    --ring: 90 100% 35%;
+    --border: 28 12% 16%;
+    --input: 28 12% 16%;
+    --ring: 88 70% 28%;
 
-    --radius: 0.25rem;
+    --radius: 0.15rem;
 
-    /* Custom tokens */
-    --rust: 15 60% 30%;
-    --toxic: 90 100% 35%;
-    --toxic-glow: 90 100% 50%;
-    --concrete: 30 5% 25%;
-    --dirty-yellow: 45 70% 50%;
-    --charcoal: 30 5% 8%;
-    --danger: 0 70% 45%;
+    --rust: 15 55% 25%;
+    --toxic: 88 70% 28%;
+    --toxic-glow: 88 80% 42%;
+    --concrete: 30 5% 22%;
+    --dirty-yellow: 42 60% 42%;
+    --charcoal: 30 5% 6%;
+    --danger: 0 65% 40%;
 
     --font-display: 'Rajdhani', sans-serif;
     --font-mono: 'Share Tech Mono', monospace;
 
-    --shadow-inset: inset 0 1px 3px rgba(0,0,0,0.5);
-    --shadow-panel: 0 2px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
-    --shadow-heavy: 0 4px 16px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.04);
+    --shadow-inset: inset 0 2px 5px rgba(0,0,0,0.7);
+    --shadow-panel: 0 2px 12px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.02);
+    --shadow-heavy: 0 4px 20px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.03);
 
-    --sidebar-background: 30 5% 10%;
-    --sidebar-foreground: 45 20% 75%;
-    --sidebar-primary: 90 100% 35%;
+    --sidebar-background: 30 5% 8%;
+    --sidebar-foreground: 45 15% 65%;
+    --sidebar-primary: 88 70% 28%;
     --sidebar-primary-foreground: 30 5% 5%;
-    --sidebar-accent: 30 8% 15%;
-    --sidebar-accent-foreground: 45 20% 75%;
-    --sidebar-border: 30 10% 20%;
-    --sidebar-ring: 90 100% 35%;
+    --sidebar-accent: 30 8% 12%;
+    --sidebar-accent-foreground: 45 15% 65%;
+    --sidebar-border: 28 12% 16%;
+    --sidebar-ring: 88 70% 28%;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-
+  * { @apply border-border; }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-mono);
   }
-
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 700;
@@ -81,7 +76,33 @@
   }
 }
 
-/* ========== TEXTURE OVERLAYS ========== */
+/* ========== VIGNETTE GLOBALE ========== */
+
+body::after {
+  content: '' !important;
+  position: fixed !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 9999 !important;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%) !important;
+}
+
+body::before {
+  content: '' !important;
+  position: fixed !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 9998 !important;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.1) 0px,
+    rgba(0,0,0,0.1) 1px,
+    transparent 1px,
+    transparent 3px
+  ) !important;
+}
+
+/* ========== TEXTURE NOISE ========== */
 
 .noise-bg {
   position: relative;
@@ -90,60 +111,61 @@
   content: '';
   position: absolute;
   inset: 0;
-  opacity: 0.04;
+  opacity: 0.07;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 1;
 }
 
-/* Scanline CRT effect */
-.scanline::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(transparent 50%, rgba(0,0,0,0.03) 50%);
-  background-size: 100% 4px;
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* ========== PANEL SYSTEM ========== */
+/* ========== PANELS ABÎMÉS ========== */
 
 .panel {
-  @apply bg-card border border-border rounded-sm;
+  background-color: hsl(28 6% 9%) !important;
+  border: 1px solid hsl(28 12% 13%) !important;
+  border-radius: 0.15rem !important;
   box-shadow: var(--shadow-panel);
   position: relative;
   overflow: hidden;
 }
 
-/* Riveted / bolted corners */
+/* Bord intérieur rouillé */
 .panel::before {
   content: '';
   position: absolute;
-  top: 4px;
-  left: 4px;
-  right: 4px;
-  bottom: 4px;
-  border: 1px solid hsl(var(--border) / 0.3);
+  top: 3px; left: 3px; right: 3px; bottom: 3px;
+  border: 1px solid hsl(var(--rust) / 0.2);
   border-radius: 1px;
   pointer-events: none;
   z-index: 0;
 }
 
+/* Tache d'usure en haut à gauche */
+.panel::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, hsl(var(--rust) / 0.4), transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+
 .panel-header {
-  @apply px-3 py-2 border-b border-border;
+  padding: 0.5rem 0.75rem !important;
+  border-bottom: 1px solid hsl(var(--rust) / 0.25) !important;
   font-family: var(--font-display);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
   color: hsl(var(--muted-foreground));
-  background: linear-gradient(180deg, hsl(var(--muted) / 0.5), transparent);
+  background: linear-gradient(180deg, hsl(var(--rust) / 0.08), transparent) !important;
   position: relative;
   z-index: 1;
 }
 
-/* ========== DICE FACE STYLES ========== */
+/* ========== DÉS ========== */
 
 .die-face {
   @apply flex items-center justify-center rounded-sm relative overflow-hidden;
@@ -156,14 +178,13 @@
 .die-texture {
   position: absolute;
   inset: 0;
-  opacity: 0.06;
+  opacity: 0.1;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 1;
   mix-blend-mode: overlay;
 }
 
-/* Die number */
 .die-number {
   position: relative;
   z-index: 2;
@@ -172,135 +193,147 @@
   font-size: 1.5rem;
   line-height: 1;
   color: currentColor;
-  opacity: 0.6;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.08), 0 -1px 0 rgba(0,0,0,0.4);
+  opacity: 0.65;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 -1px 0 rgba(0,0,0,0.5);
 }
-.die-number-success {
-  opacity: 1;
-  filter: drop-shadow(0 0 4px currentColor);
-}
-.die-number-trauma {
-  opacity: 0.75;
-}
-.die-number-gear-damage {
-  opacity: 0.75;
-}
+.die-number-success { opacity: 1; filter: drop-shadow(0 0 4px currentColor); }
 .die-number-damage {
   opacity: 1;
   color: hsl(var(--danger));
   filter: drop-shadow(0 0 5px hsl(var(--danger) / 0.8));
 }
 
-/* === BASE / ATTRIBUTE DIE === */
+/* Attribut — jaune poussiéreux */
 .die-base {
-  background: linear-gradient(145deg, hsl(45 50% 14%), hsl(40 40% 10%));
-  border-color: hsl(var(--dirty-yellow) / 0.5);
-  color: hsl(var(--dirty-yellow));
-  box-shadow: var(--shadow-inset), 0 1px 0 hsl(var(--dirty-yellow) / 0.15);
+  background: linear-gradient(145deg, hsl(42 35% 11%), hsl(38 28% 7%));
+  border-color: hsl(42 45% 28%);
+  color: hsl(42 55% 45%);
+  box-shadow: var(--shadow-inset), inset 0 0 8px rgba(0,0,0,0.4);
 }
 
-/* === SKILL DIE === */
+/* Compétence — vert militaire terne */
 .die-skill {
-  background: linear-gradient(145deg, hsl(100 30% 12%), hsl(90 25% 8%));
-  border-color: hsl(var(--toxic) / 0.4);
-  color: hsl(var(--toxic));
-  box-shadow: var(--shadow-inset), 0 1px 0 hsl(var(--toxic) / 0.1);
+  background: linear-gradient(145deg, hsl(95 22% 10%), hsl(88 18% 6%));
+  border-color: hsl(88 40% 22%);
+  color: hsl(88 55% 32%);
+  box-shadow: var(--shadow-inset), inset 0 0 8px rgba(0,0,0,0.4);
 }
 
-/* === GEAR DIE === */
+/* Équipement — noir charbon */
 .die-gear {
-  background: linear-gradient(145deg, hsl(20 15% 14%), hsl(15 10% 8%));
-  border-color: hsl(var(--rust) / 0.6);
-  color: hsl(var(--rust) / 0.9);
-  box-shadow: var(--shadow-inset), 0 1px 0 hsl(var(--rust) / 0.15);
+  background: linear-gradient(145deg, hsl(0 0% 10%), hsl(0 0% 5%));
+  border-color: hsl(0 0% 28%);
+  color: hsl(0 0% 60%);
+  box-shadow: var(--shadow-inset), inset 0 0 8px rgba(0,0,0,0.6);
 }
 
-/* === Success highlight === */
+/* Succès */
 .die-success {
-  box-shadow: 0 0 10px hsl(var(--toxic) / 0.5), var(--shadow-inset);
-  border-color: hsl(var(--toxic) / 0.7);
+  box-shadow: 0 0 8px hsl(var(--toxic) / 0.4), var(--shadow-inset);
+  border-color: hsl(var(--toxic) / 0.6);
 }
 .die-success .die-number {
   color: hsl(var(--toxic-glow));
-  filter: drop-shadow(0 0 6px hsl(var(--toxic-glow)));
+  filter: drop-shadow(0 0 5px hsl(var(--toxic-glow)));
   opacity: 1;
 }
 
-/* === Damage highlight === */
+/* Dégâts */
 .die-damage {
-  box-shadow: 0 0 10px hsl(var(--danger) / 0.6), var(--shadow-inset);
-  border-color: hsl(var(--danger) / 0.7);
-  animation: damage-pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 8px hsl(var(--danger) / 0.5), var(--shadow-inset);
+  border-color: hsl(var(--danger) / 0.6);
+  animation: damage-pulse 1.8s ease-in-out infinite;
 }
 
 @keyframes damage-pulse {
-  0%, 100% { box-shadow: 0 0 8px hsl(var(--danger) / 0.4), var(--shadow-inset); }
-  50% { box-shadow: 0 0 16px hsl(var(--danger) / 0.7), var(--shadow-inset); }
+  0%, 100% { box-shadow: 0 0 6px hsl(var(--danger) / 0.3), var(--shadow-inset); }
+  50% { box-shadow: 0 0 14px hsl(var(--danger) / 0.65), var(--shadow-inset); }
 }
 
-/* ========== GLOW & ANIMATIONS ========== */
+.die-symbol-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========== LUEURS & ANIMATIONS ========== */
 
 @keyframes glow-pulse {
-  0%, 100% { text-shadow: 0 0 4px hsl(var(--toxic) / 0.4); }
-  50% { text-shadow: 0 0 12px hsl(var(--toxic) / 0.8); }
+  0%, 100% { text-shadow: 0 0 3px hsl(var(--toxic) / 0.35); }
+  50% { text-shadow: 0 0 10px hsl(var(--toxic) / 0.7); }
 }
-
 .toxic-glow {
   color: hsl(var(--toxic));
-  animation: glow-pulse 2s ease-in-out infinite;
+  animation: glow-pulse 2.5s ease-in-out infinite;
 }
 
-/* ========== HEAVY BUTTON ========== */
+/* Scintillement CRT subtil sur le titre */
+@keyframes flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.85; }
+  97% { opacity: 1; }
+  98% { opacity: 0.9; }
+}
+h1, .font-display {
+  animation: flicker 8s infinite;
+}
+
+/* ========== BOUTONS ========== */
 
 .btn-heavy {
   position: relative;
   font-family: var(--font-display);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   border: 2px solid;
   transition: all 0.15s ease;
-  box-shadow: var(--shadow-heavy), inset 0 1px 0 rgba(255,255,255,0.06);
+  box-shadow: var(--shadow-heavy), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 .btn-heavy:active {
   transform: translateY(1px);
   box-shadow: var(--shadow-inset);
 }
 .btn-heavy:disabled {
-  opacity: 0.3;
+  opacity: 0.25;
   cursor: not-allowed;
   transform: none;
+  filter: grayscale(0.5);
 }
 
 .btn-roll {
-  background: linear-gradient(180deg, hsl(var(--toxic)), hsl(90 80% 28%));
-  border-color: hsl(var(--toxic-glow) / 0.5);
-  color: hsl(var(--primary-foreground));
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  background: linear-gradient(180deg, hsl(88 65% 24%), hsl(88 55% 16%));
+  border-color: hsl(88 50% 28%);
+  color: hsl(88 80% 70%);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 .btn-roll:hover:not(:disabled) {
-  box-shadow: 0 0 24px hsl(var(--toxic) / 0.3), var(--shadow-heavy);
+  box-shadow: 0 0 18px hsl(var(--toxic) / 0.25), var(--shadow-heavy);
+  background: linear-gradient(180deg, hsl(88 70% 27%), hsl(88 58% 18%));
 }
 
 .btn-push {
-  background: linear-gradient(180deg, hsl(var(--danger)), hsl(0 60% 30%));
-  border-color: hsl(var(--danger) / 0.6);
-  color: hsl(var(--destructive-foreground));
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  background: linear-gradient(180deg, hsl(12 55% 28%), hsl(12 45% 18%));
+  border-color: hsl(12 50% 32%);
+  color: hsl(12 80% 75%);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 .btn-push:hover:not(:disabled) {
-  box-shadow: 0 0 20px hsl(var(--danger) / 0.3), var(--shadow-heavy);
+  box-shadow: 0 0 16px hsl(var(--danger) / 0.25), var(--shadow-heavy);
 }
 
-/* ========== POOL CONTROLS ========== */
+/* ========== CONTRÔLES DE POOL ========== */
 
 .pool-btn {
   @apply flex items-center justify-center bg-secondary border border-border rounded-sm;
   box-shadow: var(--shadow-inset);
   transition: all 0.1s ease;
+  border-color: hsl(var(--rust) / 0.3);
 }
 .pool-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.94);
   background: hsl(var(--muted));
 }
 
